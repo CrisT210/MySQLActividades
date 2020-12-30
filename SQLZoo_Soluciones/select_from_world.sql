@@ -3,7 +3,8 @@
 1. Introduction
 Read the notes about this table. Observe the result of running this SQL command to show the name, continent and population of all countries.
 */
-SELECT name, continent, population FROM world;
+SELECT name, continent, population 
+FROM world;
 
 /*
 2. Large Countries
@@ -103,7 +104,8 @@ Show the name and the capital where the first letters of each match. Don't inclu
 */
 SELECT name, capital
 FROM world
-WHERE LEFT(name, 1) = LEFT(capital, 1) AND name <> capital;
+WHERE LEFT(name, 1) = LEFT(capital, 1) 
+AND name <> capital;
 
 /*
 13. All the vowels
