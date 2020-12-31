@@ -16,8 +16,8 @@ WHERE u.id = f.user_id AND f.friend_id = u2.id;
 -- 1. 
 SELECT u.first_name, u.last_name, CONCAT(u2.first_name, ' ', u2.last_name) AS amigo
 FROM users AS u
-LEFT JOIN friendships AS f ON u.id = f.user_id 
-LEFT JOIN users AS u2 ON f.friend_id = u2.id
+INNER JOIN friendships AS f ON u.id = f.user_id 
+INNER JOIN users AS u2 ON f.friend_id = u2.id
 WHERE u2.first_name = 'Kermit';
 
 SELECT u.first_name, u.last_name, CONCAT(u2.first_name, ' ', u2.last_name) AS amigo
@@ -57,8 +57,8 @@ SELECT * FROM friendships; -- Para Corroborar
 -- 5.
 SELECT u.id, CONCAT(u.first_name, ' ', u.last_name) AS usuario, CONCAT(u2.first_name, ' ', u2.last_name) AS amigo
 FROM users AS u
-LEFT JOIN friendships AS f ON u.id = f.user_id
-LEFT JOIN users AS u2 ON f.friend_id = u2.id
+INNER JOIN friendships AS f ON u.id = f.user_id
+INNER JOIN users AS u2 ON f.friend_id = u2.id
 WHERE u.first_name = 'Eli'
 ORDER BY u2.last_name ASC;
 
@@ -74,8 +74,8 @@ WHERE friend_id = 5;
 -- 7. 
 SELECT CONCAT(u.first_name, ' ', u.last_name) AS usuario, CONCAT(u2.first_name, ' ', u2.last_name) AS amigo 
 FROM users AS u
-JOIN friendships AS f ON u.id = f.user_id 
-JOIN users AS u2 ON f.friend_id = u2.id; 
+INNER JOIN friendships AS f ON u.id = f.user_id 
+INNER JOIN users AS u2 ON f.friend_id = u2.id; 
 
 SELECT CONCAT(u.first_name, ' ', u.last_name) AS usuario, CONCAT(u2.first_name, ' ', u2.last_name) AS amigo 
 FROM users AS u, friendships AS f, users AS u2
