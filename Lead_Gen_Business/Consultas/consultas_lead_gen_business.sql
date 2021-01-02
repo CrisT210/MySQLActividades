@@ -1,5 +1,7 @@
 USE lead_gen_business;
 
+SELECT * FROM clients;
+
 -- 1. 
 SELECT MONTHNAME(charged_datetime) AS mes, SUM(amount) AS ingreso_total 
 FROM billing
@@ -53,7 +55,7 @@ INNER JOIN sites AS s ON c.client_id = s.client_id
 INNER JOIN leads AS l ON s.site_id = l.site_id
 WHERE l.registered_datetime BETWEEN '2011/01/01' AND '2011/06/31'
 GROUP BY c.client_id, l.registered_datetime
-ORDER BY l.registered_datetime;
+ORDER BY MONTH(l.registered_datetime);
 
 -- 8. 
 SELECT CONCAT(c.first_name, ' ', c.last_name) AS cliente, s.domain_name AS sitio, COUNT(l.leads_id) AS nro_clientes_potenciales, DATE_FORMAT(MIN(l.registered_datetime), "%M %d, %Y") AS fecha
@@ -62,24 +64,24 @@ INNER JOIN sites AS s ON c.client_id = s.client_id
 INNER JOIN leads AS l ON s.site_id = l.site_id
 WHERE l.registered_datetime BETWEEN '2011/01/01' AND '2011/12/31'
 GROUP BY c.client_id, sitio
-ORDER BY c.client_id, nro_clientes_potenciales DESC;
+ORDER BY c.client_id, MIN(l.registered_datetime);
 
 SELECT CONCAT(c.first_name, ' ', c.last_name) AS cliente, s.domain_name AS sitio, COUNT(l.leads_id) AS nro_clientes_potenciales
 FROM clients AS c
 INNER JOIN sites AS s ON c.client_id = s.client_id
 INNER JOIN leads AS l ON s.site_id = l.site_id
 GROUP BY c.client_id, sitio
-ORDER BY c.client_id, nro_clientes_potenciales DESC;
+ORDER BY c.client_id, MIN(l.registered_datetime);
 
 -- 9.
 SELECT CONCAT(c.first_name, ' ', c.last_name) AS cliente, SUM(b.amount) AS ingreso_total, MONTHNAME(b.charged_datetime) AS mes, YEAR(b.charged_datetime) AS año
 FROM clients AS c
 INNER JOIN billing AS b ON c.client_id = b.client_id
 GROUP BY c.client_id, mes, año
-ORDER BY c.client_id, año;
+ORDER BY c.client_id, MIN(b.charged_datetime);
 
 -- 10. 
-SELECT CONCAT(c.first_name, ' ', c.last_name) AS cliente, GROUP_CONCAT(' ', s.domain_name) as sitios
+SELECT CONCAT(c.first_name, ' ', c.last_name) AS cliente, GROUP_CONCAT(' ', s.domain_name, ' ' SEPARATOR '/') as sitios
 FROM clients AS c
 LEFT JOIN sites AS s ON c.client_id = s.client_id
 GROUP BY c.client_id;
